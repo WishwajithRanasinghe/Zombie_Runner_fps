@@ -10,6 +10,7 @@ public class EnemyWalk : MonoBehaviour
     [SerializeField] private float _miniDistance =2f;
     [SerializeField] private Transform[] _rayLeftPos,_rayRightPos;
     [SerializeField] private float _ditack = 7f;
+    
     private float _maxDistance = Mathf.Infinity;
     private NavMeshAgent _navMeshA;
     private GameObject _player;
@@ -33,22 +34,25 @@ public class EnemyWalk : MonoBehaviour
     {
         
         
-        if(_player == null){return;}
-        RayCast();
-        _maxDistance = Vector3.Distance(transform.position,_player.transform.position);
-        if(_maxDistance <= _cheasDistance)
+        if(_player != null)
         {
-            EnemyFallow();
-            _zScript.ZombieAttack(false);
-        }
-        else
-        {
-            _zScript.ZombieRun(false);
-        }
-        if(_maxDistance <= _miniDistance)
-        {
-            EnemyStop();
-            ZombieAttack();  
+
+            RayCast();
+            _maxDistance = Vector3.Distance(transform.position,_player.transform.position);
+            if(_maxDistance <= _cheasDistance)
+            {
+                EnemyFallow();
+                _zScript.ZombieAttack(false);
+            }
+            else
+            {
+                _zScript.ZombieRun(false);
+            }
+            if(_maxDistance <= _miniDistance)
+            {
+                EnemyStop();
+                ZombieAttack();  
+            }
         }
         
         
@@ -58,7 +62,7 @@ public class EnemyWalk : MonoBehaviour
     }//Update
     private void ZombieAttack()
     {
-        if(!(_hitRight.transform.tag == "Player" && _hitLeft.transform.tag == "Player"))
+        if(!(_hitRight.transform.gameObject.tag == "Player" || _hitLeft.transform.gameObject.tag == "Player"))
         {
             if(_hitLeft.transform.tag == "Player")
             {

@@ -24,6 +24,7 @@ public class EnemyWalk : MonoBehaviour
         _navMeshA = GetComponent<NavMeshAgent>();    
         _zScript = GetComponent<ZombieAnimation>();
         _player = GameObject.FindGameObjectWithTag("Player");
+        _navMeshA.stoppingDistance = _miniDistance;
     }//Awake
     private void Start()
     {
@@ -37,7 +38,7 @@ public class EnemyWalk : MonoBehaviour
         if(_player != null)
         {
 
-            RayCast();
+            //RayCast();
             _maxDistance = Vector3.Distance(transform.position,_player.transform.position);
             if(_maxDistance <= _cheasDistance)
             {
@@ -62,7 +63,7 @@ public class EnemyWalk : MonoBehaviour
     }//Update
     private void ZombieAttack()
     {
-        if(!(_hitRight.transform.gameObject.tag == "Player" || _hitLeft.transform.gameObject.tag == "Player"))
+       /* if(!(_hitRight.transform.gameObject.tag == "Player" || _hitLeft.transform.gameObject.tag == "Player"))
         {
             if(_hitLeft.transform.tag == "Player")
             {
@@ -90,7 +91,11 @@ public class EnemyWalk : MonoBehaviour
         else
         {
             _zScript.ZombieAttack(false);
-        }
+        }*/
+        
+
+        _zScript.ZombieAttack(true);
+
 
     }
     private void EnemyFallow()

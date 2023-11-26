@@ -67,6 +67,11 @@ public class PlayerShoot : MonoBehaviour
             //_hit.transform.gameObject.GetComponent<EnemyHelth>().EnemyDamage(50);
             //_hit.transform.gameObject.GetComponent<ZombieAnimation>().ZombieHeadHit(true);
         }
+        if(_hit.transform.tag == "Boar")
+        {
+            _hit.transform.gameObject.GetComponent<Boar>().BoarHealth(25);
+            print("boar");
+        }
         else
         {
             //_hit.transform.gameObject.GetComponent<ZombieAnimation>().ZombieHeadHit(false);

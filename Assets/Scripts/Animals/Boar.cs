@@ -15,6 +15,7 @@ public class Boar : MonoBehaviour
     [SerializeField] private float _miniDistance = 1.5f;
     [SerializeField] private float _health = 100f;
     private BoarAnimation _animation;
+    private BoraSound _sound;
     [SerializeField] private Transform[] _walkPos;
     
 
@@ -25,8 +26,10 @@ public class Boar : MonoBehaviour
         _navmesh.stoppingDistance = _miniDistance;
         _navmesh.speed = _walkSpeed;
         _animation = GetComponent<BoarAnimation>();
+        _sound = GetComponent<BoraSound>();
         _startStopTime = _stopTime;
         _currentPos = 0;
+        _health = 100;
         
     }//Start
 
@@ -41,6 +44,7 @@ public class Boar : MonoBehaviour
             _navmesh.stoppingDistance = _miniDistance;
             _navmesh.speed = _runSpeed;
             _animation.BoarWalk(false);
+            _sound.Eating(false);
             CheasPlayer();
             
         }
@@ -48,6 +52,7 @@ public class Boar : MonoBehaviour
         {
             if(_navmesh.enabled == false) return;
             _animation.BoarRun(false);
+            _sound.Eating(false);
             _navmesh.stoppingDistance = 0;
             _navmesh.speed = _walkSpeed;
             NormalWalk();
@@ -60,8 +65,10 @@ public class Boar : MonoBehaviour
             _animation.BoarRun(false);
             _animation.BoarAttack(false);
             _animation.BoarDead(true);
+            _sound.Dead(true);
             _navmesh.enabled = false;
             Destroy(this.gameObject,10f);
+            _sound.Dead(false);
         }
     }//Update
     private void NormalWalk()
@@ -83,6 +90,7 @@ public class Boar : MonoBehaviour
             _animation.BoarRun(false);
             _animation.BoarAttack(false);
             _animation.BoarHit(false);
+            _sound.Eating(true);
             if(_stopTime <=0)
             {
                 
@@ -95,12 +103,15 @@ public class Boar : MonoBehaviour
     }
     private void CheasPlayer()
     {
+        _sound.Eating(false);
         if(_maxDistance >= _playerDistance)
         {
            
             _navmesh.SetDestination(_player.transform.position);
             _animation.BoarRun(true);
             _animation.BoarHit(false);
+
+            
         }
         else
         {
@@ -112,6 +123,7 @@ public class Boar : MonoBehaviour
             _animation.BoarRun(false);
             _animation.BoarAttack(true);
             _animation.BoarHit(false);
+
         }
         else
         {
